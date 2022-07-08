@@ -1,3 +1,8 @@
+from tkinter.messagebox import ABORT
+
+
+PICKLE_FOLDER = 'pickle/'
+
 # existing
 ITEM = 'item_id'
 CAT = 'item_category_id'
@@ -30,3 +35,7 @@ PE = 'price_entropy'
 SE = 'shop_entropy'
 IE = 'item_entropy'
 CE = 'category_entropy'
+APR = 'average_price_ranking'
+ABR = 'average_basket_ranking'
+ACR = 'average_category_ranking'
+AIR = 'average_item_ranking'
