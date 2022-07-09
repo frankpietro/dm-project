@@ -3,12 +3,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+
 def logbins(df):
     return np.ceil(1 + (10 / 3) * np.log10(len(df))).astype(int)
 
-def dropextr(serie):
-    return serie.sort_values()
-    # [round(len(serie)/20):-round(len(serie)/20)]
 
 def hist(df, col, bins, title, perc=0):
     df = df.sort_values(col)
@@ -27,10 +25,20 @@ def hist(df, col, bins, title, perc=0):
 def loghist(df, col, title, perc=0):
     hist(df, col, logbins(df[col]), title, perc)
 
-def rankings(serie):
-    return pd.cut(dropextr(serie), bins = logbins(serie), labels = range(logbins(serie)))
 
 def double_loghist(df1, df2, col, title, perc=0):
     plt.figure(figsize=(9, 4))
     loghist(df1, col, title, perc)
     loghist(df2, col, title, perc)
+
+
+def dropextr(series):
+    return series.sort_values()
+    # [round(len(serie)/20):-round(len(serie)/20)]
+
+
+def rankings(series, type):
+    if type == 0:  # natural binning
+        return pd.cut(dropextr(series), bins=logbins(series), labels=range(logbins(series)))
+    elif type == 1:  # frequency binning
+        return pd.qcut(dropextr(series), q=logbins(series), labels=range(logbins(series)))
