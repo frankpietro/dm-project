@@ -43,3 +43,6 @@ FAPR = 'frequency_average_price_ranking'
 FABR = 'frequency_average_basket_ranking'
 FACR = 'frequency_average_category_ranking'
 FAIR = 'frequency_average_item_ranking'
+
+# other constants
+MAX_K = 30
