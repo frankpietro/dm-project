@@ -45,3 +45,5 @@ LAB = 'label'
 
 # other constants
 MAX_K = 30
+N_INIT = 10
+MAX_ITER = 100
