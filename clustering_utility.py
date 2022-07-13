@@ -4,6 +4,8 @@ import seaborn as sns
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import cut_tree, linkage, dendrogram
 
 from col_names import *
 
@@ -34,7 +36,10 @@ def store_clustering_scores(array, labels, algorithm_name, scores_df):
     scores_df.loc[algorithm_name, 'SSE'] = SSE
     
     # computation of silhouette score
-    scores_df.loc[algorithm_name, 'silhouette'] = silhouette_score(array, labels)
+    try:
+        scores_df.loc[algorithm_name, 'silhouette'] = silhouette_score(array, labels)
+    except ValueError:
+        scores_df.loc[algorithm_name, 'silhouette'] = -2
 
 
 def reoder_labels(labels, centers):
@@ -104,3 +109,30 @@ def similarity_matrix(array, labels, figsize=(26,24), cmap='ocean'):
     _, ax = plt.subplots(figsize=figsize)
     sns.heatmap(np.clip(distances, 0, 5), ax=ax, cmap=cmap)
     plt.show()
+    
+
+def hierarchical_clustering(array, link_method, n_clusters, scores_df, pure=0, algorithm_prefix='hierarchical_', dist_metric='euclidean', link_metric='euclidean', figsize=(15,12)):
+    data_dist = pdist(array, metric=dist_metric)
+    data_link = linkage(data_dist, method=link_method, metric=link_metric)
+    plt.figure(figsize=figsize)
+    if pure:
+        plt.title(f'Pure hierarchical clustering - {link_method} method')
+    else:
+        plt.title(f'Hierarchical clustering - {link_method} method')
+
+    dendrogram(data_link, color_threshold=10.0, truncate_mode='lastp')
+
+    algorithm_prefix = 'pure_' + algorithm_prefix if pure else algorithm_prefix
+    algorithm_name = algorithm_prefix + link_method
+
+    store_clustering_scores(array, cut_tree(data_link, n_clusters=n_clusters)[:,0], algorithm_name=algorithm_name, scores_df=scores_df)
+    return data_link
+
+
+def show_clusters(data_link, array, df, n_clusters, figsize=(15,12)):
+    labels = cut_tree(data_link, n_clusters=n_clusters)[:,0]
+    centers = pd.DataFrame(array).groupby(cut_tree(data_link, n_clusters=n_clusters)[:,0]).mean()
+
+    # clustering_plots(labels, centers, user_df.columns)
+    new_labels, new_centers = reoder_labels(labels, centers)
+    plot_clusters(new_labels, new_centers, df, figsize=figsize)
