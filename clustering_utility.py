@@ -87,14 +87,12 @@ def kmeans_run(array, df, n_clusters, algorithm_name, scores_df, n_init=N_INIT, 
     return kmeans_labels
 
 
-def scatter_cluster(max_cluster, feature_1, feature_2, labels, user_df, figsize=(14,12)):
+def scatter_cluster(max_cluster, feature_1, feature_2, user_df, figsize=(14,12)):
     # mask to remove points in outliers clusters
-    mask = (labels < max_cluster)
-    mask.index = range(1, len(mask)+1)
-    labels.index = range(1, len(labels)+1)
+    mask = (user_df[LAB] < max_cluster)
 
     plt.figure(figsize=figsize)
-    scatter = plt.scatter(user_df[mask][feature_1], user_df[mask][feature_2], c=labels[mask])
+    scatter = plt.scatter(user_df[mask][feature_1], user_df[mask][feature_2], c=user_df[mask][LAB])
 
     plt.legend(*scatter.legend_elements(), bbox_to_anchor=(1, 1))
 
