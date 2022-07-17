@@ -50,6 +50,7 @@ FAPR = 'frequency_average_price_ranking'
 FABR = 'frequency_average_basket_ranking'
 FAIR = 'frequency_average_item_ranking'
 LAB = 'label'
+WLAB = 'all'
 
 # other constants
 MAX_K = 30
