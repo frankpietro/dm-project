@@ -10,6 +10,7 @@ USER_DF = 'user_df'
 SHOP_DF = 'shop_df'
 ITEM_DF = 'item_df'
 DATE_DF = 'date_df'
+TOTAL_DF = 'total_df'
 CLUST_DF = 'clustering_df'
 
 
