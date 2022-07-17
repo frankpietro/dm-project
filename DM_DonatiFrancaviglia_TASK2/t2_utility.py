@@ -141,5 +141,5 @@ def scale_df(df, method):
     if method == 1:
         array = StandardScaler().fit_transform(df)
     else:
-        array = StandardScaler().fit_transform(df)
+        array = MinMaxScaler().fit_transform(df)
     return array, pd.DataFrame(data=array, index=df.index, columns=df.columns)

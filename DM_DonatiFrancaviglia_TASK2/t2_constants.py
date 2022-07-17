@@ -2,14 +2,10 @@
 PICKLE_FOLDER = '../pickle/'
 CLEAN = 'clean_'
 PURE = 'pure_'
-# PREPARED = 'prepared_'
 SELECTED = 'selected_'
+LABELLED = 'labelled_'
 
-# BASKET_DF = 'basket_df'
 USER_DF = 'user_df'
-# SHOP_DF = 'shop_df'
-# ITEM_DF = 'item_df'
-# DATE_DF = 'date_df'
 CLUST_DF = 'clustering_df'
 
 
