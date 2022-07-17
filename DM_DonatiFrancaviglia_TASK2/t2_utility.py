@@ -135,6 +135,7 @@ def show_clusters(data_link, array, df, n_clusters, figsize=(15,12)):
     # clustering_plots(labels, centers, user_df.columns)
     new_labels, new_centers = reoder_labels(labels, centers)
     plot_clusters(new_labels, new_centers, df, figsize=figsize)
+    return new_labels
 
 
 def scale_df(df, method):
