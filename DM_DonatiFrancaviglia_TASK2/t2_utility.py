@@ -161,28 +161,3 @@ def create_centers(df):
     return centers
 
 
-def plot_expansion(user_df):
-    u1 = user_df.quantile(0.05)
-    u2 = user_df.quantile(0.25)
-    u3 = user_df.quantile(0.5)
-    u4 = user_df.quantile(0.75)
-    u5 = user_df.quantile(0.95)
-
-
-    tmp = user_df.groupby(LAB)
-    x1 = (tmp.quantile(0.05) - u1)/u1
-    x2 = (tmp.quantile(0.25) - u2)/u2
-    x3 = (tmp.quantile(0.5) - u3)/u3
-    x4 = (tmp.quantile(0.75) - u4)/u4
-    x5 = (tmp.quantile(0.95) - u5)/u5
-
-    x_df = x1 + np.sign(x2)*abs(x2)**(1/3) + np.sign(x3)*abs(x3)**(1/5) + np.sign(x4)*abs(x4)**(1/3) + x5
-
-    df1 = x_df.iloc[:, :int(len(x_df.columns)/2)]
-
-
-    df1.plot(figsize=(25,12))
-    plt.xticks(ticks=range(user_df[LAB].nunique()), rotation=60)
-
-    x_df.T.plot(figsize=(25,12))
-    plt.xticks(ticks=range(len(x_df.columns)), labels=x_df.columns, rotation=60)
