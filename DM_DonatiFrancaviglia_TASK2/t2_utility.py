@@ -78,8 +78,12 @@ def plot_clusters(labels, centers, user_df, figsize):
     plt.show()
 
 
-def kmeans_run(array, df, n_clusters, algorithm_name, scores_df, n_init=N_INIT, max_iter=MAX_ITER, figsize=(20,10)):
-    kmeans = KMeans(n_clusters=n_clusters, n_init=n_init, max_iter=max_iter)
+def kmeans_run(array, df, n_clusters, algorithm_name, scores_df, n_init=N_INIT, max_iter=MAX_ITER, figsize=(20,10), centers=None):
+    if centers:
+        n_clusters = len(centers)
+        kmeans = KMeans(init=centers, n_clusters=n_clusters, n_init=n_init, max_iter=max_iter)
+    else:
+        kmeans = KMeans(n_clusters=n_clusters, n_init=n_init, max_iter=max_iter)
     kmeans.fit(array)
     store_clustering_scores(array, kmeans.labels_, algorithm_name, scores_df)
     kmeans_labels, kmeans_centers = reoder_labels(kmeans.labels_, kmeans.cluster_centers_)
@@ -144,3 +148,41 @@ def scale_df(df, method):
     else:
         array = MinMaxScaler().fit_transform(df)
     return array, pd.DataFrame(data=array, index=df.index, columns=df.columns)
+
+
+def create_centers(df):
+    k = len(df.columns)
+    centers = []
+    for i in range(k):
+        c = [-1/k]*k
+        c[i] = 1
+        centers.append(c)
+    
+    return centers
+
+
+def plot_expansion(user_df):
+    u1 = user_df.quantile(0.05)
+    u2 = user_df.quantile(0.25)
+    u3 = user_df.quantile(0.5)
+    u4 = user_df.quantile(0.75)
+    u5 = user_df.quantile(0.95)
+
+
+    tmp = user_df.groupby(LAB)
+    x1 = (tmp.quantile(0.05) - u1)/u1
+    x2 = (tmp.quantile(0.25) - u2)/u2
+    x3 = (tmp.quantile(0.5) - u3)/u3
+    x4 = (tmp.quantile(0.75) - u4)/u4
+    x5 = (tmp.quantile(0.95) - u5)/u5
+
+    x_df = x1 + np.sign(x2)*abs(x2)**(1/3) + np.sign(x3)*abs(x3)**(1/5) + np.sign(x4)*abs(x4)**(1/3) + x5
+
+    df1 = x_df.iloc[:, :int(len(x_df.columns)/2)]
+
+
+    df1.plot(figsize=(25,12))
+    plt.xticks(ticks=range(user_df[LAB].nunique()), rotation=60)
+
+    x_df.T.plot(figsize=(25,12))
+    plt.xticks(ticks=range(len(x_df.columns)), labels=x_df.columns, rotation=60)
