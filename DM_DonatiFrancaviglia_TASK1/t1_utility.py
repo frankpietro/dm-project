@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-
+import pickle
 
 def logbins(df):
     return np.ceil(1 + (10 / 3) * np.log10(len(df))).astype(int)

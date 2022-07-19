@@ -9,9 +9,9 @@ from scipy.cluster.hierarchy import cut_tree, linkage, dendrogram
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 from pyclustering.cluster.xmeans import xmeans
+import pickle
 
 from t2_constants import *
-
 
 def elbow_rule(array, n_init=N_INIT, max_iter=MAX_ITER, max_k=MAX_K, figsize=(15,10)):
     sse_list = []

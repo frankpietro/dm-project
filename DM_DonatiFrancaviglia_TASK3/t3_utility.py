@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-
+import pickle
 
 def scale_df(df, method):
     if method == 1:
