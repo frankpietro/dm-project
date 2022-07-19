@@ -62,7 +62,8 @@ def reoder_labels(labels, centers):
 
 def plot_clusters(labels, centers, user_df, figsize):
     _, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
-    sns.histplot(labels.astype('str').sort_values(), bins=10, ax=ax1)
+    ax1.set_xticks([])
+    sns.histplot(labels.astype(int).sort_values(), bins=labels.nunique(), ax=ax1)
     items_per_cluster = labels.value_counts()
 
     for i, center in enumerate(centers):
@@ -78,7 +79,7 @@ def plot_clusters(labels, centers, user_df, figsize):
     plt.show()
 
 
-def kmeans_run(array, df, n_clusters, algorithm_name, scores_df, n_init=N_INIT, max_iter=MAX_ITER, figsize=(20,10), centers=None):
+def kmeans_run(array, df, algorithm_name, scores_df, n_clusters=None, n_init=N_INIT, max_iter=MAX_ITER, figsize=(20,10), centers=None):
     if centers:
         n_clusters = len(centers)
         kmeans = KMeans(init=centers, n_clusters=n_clusters, n_init=n_init, max_iter=max_iter)
