@@ -1,4 +1,9 @@
 # dataframe names
+from ast import LShift
+from ctypes.wintypes import MSG
+from sklearn.semi_supervised import LabelSpreading
+
+
 PICKLE_FOLDER = '../pickle/'
 CLEAN = 'clean_'
 PURE = 'pure_'
@@ -51,7 +56,15 @@ FABR = 'frequency_average_basket_ranking'
 FAIR = 'frequency_average_item_ranking'
 LAB = 'label'
 WLAB = 'all'
+SLAB = 'spending_label'
 
+# spending labels
+# LS = 'L'
+# MS = 'M'
+# HS = 'H'
+LS = -1
+MS = 0
+HS = 1
 # other constants
 MAX_K = 30
 N_INIT = 10
