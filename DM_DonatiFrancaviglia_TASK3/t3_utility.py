@@ -21,25 +21,25 @@ def rankings(series, type, bins):
     elif type == 1:  # frequency binning
         return pd.qcut(series.sort_values(), q=bins, labels=range(bins))
 
-def cross_validation(model, X: np.ndarray, y: np.ndarray, n_splits: int) -> np.ndarray:
+def cross_validation(model, x, y, n_splits = 5):
     """Return validation scores across the k folds of cross-validation."""
     skf = StratifiedKFold(n_splits=n_splits, random_state=0, shuffle=True)
     val_score = []
-    for train_index, test_index in skf.split(X, y):
-        model.fit(X[train_index], y[train_index].ravel())
-        val_score.append(model.score(X[test_index], y[test_index].ravel()))
+    for train_index, test_index in skf.split(x, y):
+        model.fit(x[train_index], y[train_index])
+        val_score.append(model.score(x[test_index], y[test_index].ravel()))
     return np.array(val_score)
 
-def cross_validation_summary(model, X: np.ndarray, y: np.ndarray, n_splits: int) -> np.ndarray:
+def cross_validation_summary(model, x, y, n_splits = None):
     """Returns validation accuracy score of model (mean and std over all the splits)."""
-    val_score = cross_validation(model, X, y, n_splits)
+    val_score = cross_validation(model, x, y, n_splits)
     return val_score.mean(), val_score.std()
 
-def randomized_cv(model, x, y, random_grid, n_iter=100):
+def randomized_cv(model, x, y, param_d, n_iter=100):
     """Perform hyper-parameters grid search and return best configuration."""
     rf_random = RandomizedSearchCV(
         estimator = model,
-        param_distributions = random_grid,
+        param_distributions = param_d,
         n_iter = n_iter,
         cv = 5,
         verbose=0,
@@ -49,7 +49,7 @@ def randomized_cv(model, x, y, random_grid, n_iter=100):
 
     # Run grid search
     rf_random.fit(x, y)
-    mean_acc, std_acc = cross_validation_summary(rf_random.best_estimator_, x, y, 5)
+    mean_acc, std_acc = cross_validation_summary(rf_random.best_estimator_, x, y)
 
     # Print configuration  and stats about best model
     print(f'{rf_random.best_estimator_}\n mean acc: {mean_acc:.3f}\n std_acc: {std_acc:.3f}')
