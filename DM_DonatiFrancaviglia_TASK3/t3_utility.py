@@ -21,7 +21,7 @@ def rankings(series, type, bins):
     elif type == 1:  # frequency binning
         return pd.qcut(series.sort_values(), q=bins, labels=range(bins))
 
-def cross_validation(model, x, y, n_splits = 5):
+def cross_validation(model, x, y, n_splits):
     """Return validation scores across the k folds of cross-validation."""
     skf = StratifiedKFold(n_splits=n_splits, random_state=0, shuffle=True)
     val_score = []
@@ -30,9 +30,9 @@ def cross_validation(model, x, y, n_splits = 5):
         val_score.append(model.score(x[test_index], y[test_index].ravel()))
     return np.array(val_score)
 
-def cross_validation_summary(model, x, y, n_splits = None):
+def cross_validation_summary(model, x, y):
     """Returns validation accuracy score of model (mean and std over all the splits)."""
-    val_score = cross_validation(model, x, y, n_splits)
+    val_score = cross_validation(model, x, y, 5)
     return val_score.mean(), val_score.std()
 
 def randomized_cv(model, x, y, param_d, n_iter=100):
@@ -53,3 +53,5 @@ def randomized_cv(model, x, y, param_d, n_iter=100):
 
     # Print configuration  and stats about best model
     print(f'{rf_random.best_estimator_}\n mean acc: {mean_acc:.3f}\n std_acc: {std_acc:.3f}')
+
+    return rf_random.best_estimator_
