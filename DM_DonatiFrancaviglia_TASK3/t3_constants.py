@@ -13,7 +13,11 @@ LABELLED = 'labelled_'
 USER_DF = 'user_df'
 CLUST_DF = 'clustering_df'
 
+TRAIN = 'train_'
+TEST = 'test_'
 
+X = 'x'
+Y = 'y'
 
 # COLUMNS
 # existing
@@ -59,12 +63,12 @@ WLAB = 'all'
 SLAB = 'spending_label'
 
 # spending labels
-# LS = 'L'
-# MS = 'M'
-# HS = 'H'
-LS = -1
-MS = 0
-HS = 1
+LS = 'L'
+MS = 'M'
+HS = 'H'
+# LS = -1
+# MS = 0
+# HS = 1
 # other constants
 MAX_K = 30
 N_INIT = 10
