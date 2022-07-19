@@ -7,6 +7,8 @@ from sklearn.metrics import silhouette_score
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import cut_tree, linkage, dendrogram
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
+from pyclustering.cluster.xmeans import xmeans
 
 from t2_constants import *
 
@@ -160,3 +162,10 @@ def create_centers(df):
         centers.append(c)
     
     return centers
+
+
+def xmeans_run(array, n_initial_centers, max_centers):
+    initial_centers = kmeans_plusplus_initializer(array, n_initial_centers).initialize()
+    instance = xmeans(array, initial_centers, max_centers)
+    instance.process()
+    return instance
