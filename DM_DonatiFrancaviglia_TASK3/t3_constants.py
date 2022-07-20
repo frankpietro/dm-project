@@ -66,9 +66,7 @@ SLAB = 'spending_label'
 LS = 'L'
 MS = 'M'
 HS = 'H'
-# LS = -1
-# MS = 0
-# HS = 1
+
 # other constants
 MAX_K = 30
 N_INIT = 10
