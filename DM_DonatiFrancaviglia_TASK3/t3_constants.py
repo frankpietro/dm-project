@@ -73,3 +73,11 @@ HS = 'H'
 MAX_K = 30
 N_INIT = 10
 MAX_ITER = 100
+
+CRT = 'criterion'
+MVS = 'mean_val_score'
+SVS = 'std_val_score'
+MID = 'min_impurity_decrease'
+MSL = 'min_samples_leaf'
+MSS = 'min_samples_split'
+NEST = 'n_estimators'
