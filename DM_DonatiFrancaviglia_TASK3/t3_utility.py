@@ -45,10 +45,8 @@ def randomized_cv(model, x, y, param_d, n_iter=100):
         param_distributions = param_d,
         n_iter = n_iter,
         cv = 5,
-        verbose=0,
-        random_state=0,
         n_jobs = -1
-        )
+    )
 
     # Run grid search
     rf_random.fit(x, y)
@@ -57,4 +55,4 @@ def randomized_cv(model, x, y, param_d, n_iter=100):
     # Print configuration  and stats about best model
     print(f'{rf_random.best_estimator_}\n mean acc: {mean_acc:.3f}\n std_acc: {std_acc:.3f}')
 
-    return rf_random.best_estimator_
+    return rf_random.best_estimator_, rf_random.cv_results_
